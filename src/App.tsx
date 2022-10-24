@@ -1,11 +1,16 @@
 import React from "react";
-import Greetings from "./Components/Greetings";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
 
-const App: React.FC = () => {
-  const onClick = (name: string) => {
-    console.log(`${name} says hello`);
-  };
-  return <Greetings name="Test" onClick={onClick} />;
-};
+import Main from "./pages/Main";
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      {/* <Route path="/:detail" element={<Detail />} /> */}
+    </Routes>
+  );
+}
 
 export default App;
