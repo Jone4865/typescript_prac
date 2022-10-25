@@ -3,8 +3,11 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // css import
+// import { format } from 'date-fns';
+// import { DayPicker } from 'react-day-picker';
+// import 'react-day-picker/dist/style.css';
+
+import Datepicker from "../components/Datepicker/Datepicker";
 
 function Main() {
   interface ITodo {
@@ -44,8 +47,6 @@ function Main() {
       alert("내용을 입력해주세요.");
     }
   };
-
-  const [value, onChange] = useState(new Date());
 
   useEffect(() => {
     getitems();
@@ -107,8 +108,7 @@ function Main() {
           </div>
         ))}
       </div>
-      <Calendar onChange={onChange} value={value} />
-      {/* <style>{css}</style>; */}
+      <Datepicker/>
     </div>
   );
 }
@@ -126,59 +126,4 @@ const Modal = styled.form`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-
-const css = `
-.rdp {
-  --rdp-cell-size: 46px;
-  --rdp-accent-color: #70CCA6;
-  --rdp-outline: none;
-}
-.rdp-day_outside {
-  color: #DADADA;
-}
-.rdp-caption {
-  width: 322px;
-  height: 81px;
-  background: #2C8D65;
-}
-.rdp-caption_label{
-  color : #fff
-}
-.rdp-head_row,
-.rdp-head,
-.rdp-head_cell {
-  background: #70CCA6;
-  margin : 0;
-  color : #fff;
-}
-.DayPicker-Day--monday {
-  color: #00bcd4;
-}
-.rdp-nav_button {
-  color : #fff;
-}
-.rdp-day_range_middle {
-  border-radius: 0;
-}
-.rdp:not([dir='rtl']) .rdp-day_range_start:not(.rdp-day_range_end) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  height: 40px;
-  border:0;
-  margin-right: -1px;
-}
-.rdp-day_range_middle {
-  border-radius: 0;
-  border: 0;
-  height: 40px;
-  margin-left: -1px;
-}
-.rdp:not([dir='rtl']) .rdp-day_range_end:not(.rdp-day_range_start) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  height: 40px;
-  border:0;
-  transform: translate(-2px,0);
-}
 `;
