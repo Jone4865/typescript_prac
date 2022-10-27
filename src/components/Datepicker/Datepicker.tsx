@@ -14,19 +14,25 @@ interface IDate {
 
 function Datepicker({ parentCallback }: IDate) {
   const today = new Date();
-  const [month, setMonth] = React.useState<Date>(today);
-  const [selected, setSelected] = React.useState<Date>();
-  
+  const [month, setMonth] = useState<Date>(today);
+  const [selected, setSelected] = useState<Date>();
+
   const [modal, setModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-console.log(selected)
-  
-let footer = (
+
+  const postYear =
+    selected !== undefined ? selected?.getFullYear() : today.getFullYear();
+  const postMonth =
+    selected !== undefined ? selected?.getMonth() + 1 : today.getMonth() + 1;
+  const postDate =
+    selected !== undefined ? selected?.getDate() : today.getDate();
+
+  let footer = (
     <Footer>
       날짜를 선택해주세요
       <BTN
-        style={{marginTop:"5px"}}
+        style={{ marginTop: "5px" }}
         disabled={isSameMonth(today, month)}
         onClick={() => setMonth(today)}
       >
@@ -39,7 +45,7 @@ let footer = (
       <Footer>
         선택한 날짜 {format(selected, "PP")}.
         <BTN
-          style={{marginTop:"5px"}}
+          style={{ marginTop: "5px" }}
           disabled={isSameMonth(today, month)}
           onClick={() => setMonth(today)}
         >
@@ -51,7 +57,13 @@ let footer = (
 
   const postItems = async () => {
     await axios
-      .post(`http://localhost:4000/posts`, { title, content })
+      .post(`http://localhost:4000/${postYear}${postMonth}`, {
+        postYear,
+        postMonth,
+        postDate,
+        title,
+        content,
+      })
       .then((res) => {
         res.statusText === "Created" ? alert("작성 완료") : alert("작성 실패");
       });
@@ -97,6 +109,7 @@ let footer = (
             submitHandle(e);
           }}
         >
+          <p>{postYear}년 {postMonth}월 {postDate}일 할일</p>
           <input
             placeholder="제목"
             value={title}
@@ -104,13 +117,14 @@ let footer = (
               setTitle(e.target.value);
             }}
           ></input>
-          <input
+          <textarea
+            style={{height:"300px", overflowX:"scroll" }}
             placeholder="내용"
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
             }}
-          ></input>
+          ></textarea>
           <div>
             <BTN id="submitBtn">작성하기</BTN>
             <BTN
@@ -122,7 +136,7 @@ let footer = (
                 setContent("");
               }}
             >
-              닫기
+              취소하기
             </BTN>
           </div>
         </Modal>
@@ -139,7 +153,7 @@ const Calendar = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-`
+`;
 
 const Modal = styled.form`
   position: fixed;
@@ -147,11 +161,34 @@ const Modal = styled.form`
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  p {
+    font-weight: bolder;
+    font-size: 36px;
+  }
+
+  input {
+    padding: 7px;
+    border-radius: 6px;
+    border: solid 3px #fdc166;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    width: 50%;
+  }
+
+  textArea {
+    padding: 7px;
+    border-radius: 6px;
+    border: solid 3px #fdc166;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    width: 50%;
+  }
 `;
 
 const BTN = styled.button`
@@ -160,14 +197,15 @@ const BTN = styled.button`
   background-color: #fdc166;
   width: 150px;
   border: none;
-  :hover{
+  margin: 20px;
+  :hover {
     background-color: #ff9900;
     cursor: pointer;
   }
-`
+`;
 
 const Footer = styled.p`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;

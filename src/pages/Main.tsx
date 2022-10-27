@@ -1,12 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 
 import Datepicker from "../components/Datepicker/Datepicker";
 import TodoList from "../components/TodoList/TodoList";
 
 function Main() {
+  const [pickYear, setPickYear] = useState<Number>(0);
+  const [pickMonth, setPickMonth] = useState<Number>(0);
+  const [pickDate, setPickDate] = useState<Number>(0);
+
   function handleCallback(date: Date) {
-    // console.log(date);
+    setPickYear(date.getFullYear());
+    setPickMonth(date.getMonth()+1);
+    setPickDate(date.getDate());
+    console.log(date)
   }
 
   return (
@@ -14,8 +21,8 @@ function Main() {
       <Head>로고</Head>
       <Body>
         <Datepicker parentCallback={handleCallback} />
-        <TodoList />
-        <TodoList />
+        <TodoList pickYear={pickYear} pickMonth={pickMonth} pickDate={pickDate}/>
+        <TodoList pickYear={pickYear} pickMonth={pickMonth} pickDate={pickDate}/>
       </Body>
     </div>
   );
