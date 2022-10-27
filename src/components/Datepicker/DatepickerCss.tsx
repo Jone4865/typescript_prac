@@ -8,7 +8,7 @@ export default CalendarCss;
 const css = `
 .rdp {
   --rdp-cell-size: 46px;
-  --rdp-accent-color: #70CCA6;
+  --rdp-accent-color: #fdc166d8;
   --rdp-outline: none;
 }
 .rdp-day_outside {
@@ -19,7 +19,7 @@ const css = `
   width: 322px;
   height: 81px;
 
-  background: #2C8D65;
+  background: #ff9900;
 }
 
 .rdp-caption_label{
@@ -29,7 +29,7 @@ const css = `
 .rdp-head_row,
 .rdp-head,
 .rdp-head_cell {
-  background: #70CCA6;
+  background: #fdc166d8;
   margin : 0;
   color : #fff;
 }
@@ -69,9 +69,4 @@ const css = `
   transform: translate(-2px,0);
 }
 
-.my-today { 
-  font-weight: bold;
-  font-size: 140%; 
-  color: red;
-}
 `;
