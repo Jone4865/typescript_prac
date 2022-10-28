@@ -1,28 +1,29 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Datepicker from "../components/Datepicker/Datepicker";
 import TodoList from "../components/TodoList/TodoList";
+import DoneList from "../components/DoneList/Donelist";
 
 function Main() {
-  const [pickYear, setPickYear] = useState<Number>(0);
-  const [pickMonth, setPickMonth] = useState<Number>(0);
-  const [pickDate, setPickDate] = useState<Number>(0);
+  const today = new Date();
+  const [year, setYear] = useState<number>(today.getFullYear());
+  const [month, setMonth] = useState<number>(today.getMonth() + 1);
 
-  function handleCallback(date: Date) {
-    setPickYear(date.getFullYear());
-    setPickMonth(date.getMonth()+1);
-    setPickDate(date.getDate());
-    console.log(date)
+  function handleGettodo(day: Date) {
+    const getYear = day.getFullYear();
+    const getMonth = day.getMonth() + 1;
+    setYear(getYear);
+    setMonth(getMonth);
   }
 
   return (
     <div>
       <Head>로고</Head>
       <Body>
-        <Datepicker parentCallback={handleCallback} />
-        <TodoList pickYear={pickYear} pickMonth={pickMonth} pickDate={pickDate}/>
-        <TodoList pickYear={pickYear} pickMonth={pickMonth} pickDate={pickDate}/>
+        <Datepicker gettodoCallback={handleGettodo} />
+        <TodoList getYear={year} getMonth={month} />
+        <DoneList getYear={year} getMonth={month} />
       </Body>
     </div>
   );
@@ -36,9 +37,9 @@ const Head = styled.div`
   margin: auto;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const Body = styled.div`
   display: flex;
   height: 750px;
-`
+`;

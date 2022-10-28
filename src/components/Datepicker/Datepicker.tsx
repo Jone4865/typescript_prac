@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -9,10 +9,10 @@ import DatepickerCss from "../Datepicker/DatepickerCss";
 import { ko } from "date-fns/locale";
 
 interface IDate {
-  parentCallback: (date: Date) => void;
+  gettodoCallback: (day: Date) => void;
 }
 
-function Datepicker({ parentCallback }: IDate) {
+function Datepicker({ gettodoCallback }: IDate) {
   const today = new Date();
   const [month, setMonth] = useState<Date>(today);
   const [selected, setSelected] = useState<Date>();
@@ -27,6 +27,10 @@ function Datepicker({ parentCallback }: IDate) {
     selected !== undefined ? selected?.getMonth() + 1 : today.getMonth() + 1;
   const postDate =
     selected !== undefined ? selected?.getDate() : today.getDate();
+
+  useEffect(() => {
+    gettodoCallback(month);
+  }, [month]);
 
   let footer = (
     <Footer>
@@ -55,9 +59,9 @@ function Datepicker({ parentCallback }: IDate) {
     );
   }
 
-  const postItems = async () => {
+  const postTodo = async () => {
     await axios
-      .post(`http://localhost:4000/${postYear}${postMonth}`, {
+      .post(`http://localhost:4000/todos${postYear}${postMonth}`, {
         postYear,
         postMonth,
         postDate,
@@ -72,7 +76,7 @@ function Datepicker({ parentCallback }: IDate) {
   const submitHandle = (e: React.FormEvent) => {
     if (title !== "" && content !== "") {
       setModal(false);
-      postItems();
+      postTodo();
       setTitle("");
       setContent("");
     } else if (title === "") {
@@ -100,7 +104,6 @@ function Datepicker({ parentCallback }: IDate) {
         month={month}
         onMonthChange={setMonth}
         locale={ko}
-        onDayClick={parentCallback}
       />
       {modal ? (
         <Modal
@@ -109,7 +112,9 @@ function Datepicker({ parentCallback }: IDate) {
             submitHandle(e);
           }}
         >
-          <p>{postYear}년 {postMonth}월 {postDate}일 할일</p>
+          <p>
+            {postYear}년 {postMonth}월 {postDate}일 할일
+          </p>
           <input
             placeholder="제목"
             value={title}
@@ -118,7 +123,7 @@ function Datepicker({ parentCallback }: IDate) {
             }}
           ></input>
           <textarea
-            style={{height:"300px", overflowX:"scroll" }}
+            style={{ height: "300px", overflowX: "scroll" }}
             placeholder="내용"
             value={content}
             onChange={(e) => {
@@ -198,6 +203,7 @@ const BTN = styled.button`
   width: 150px;
   border: none;
   margin: 20px;
+  font-weight: bold;
   :hover {
     background-color: #ff9900;
     cursor: pointer;
