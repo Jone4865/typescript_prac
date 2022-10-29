@@ -19,7 +19,7 @@ function Main() {
 
   return (
     <div>
-      <Head>로고</Head>
+      <Head>One's TodoList</Head>
       <Body>
         <Datepicker gettodoCallback={handleGettodo} />
         <TodoList getYear={year} getMonth={month} />
@@ -31,7 +31,12 @@ function Main() {
 
 export default Main;
 
-const Head = styled.div`
+const Head = styled.p`
+  width: 50%;
+  font-size: 40px;
+  font-weight: bold;
+  border: solid 3px #ffad50;
+  padding: 10px;
   height: 50px;
   display: flex;
   margin: auto;

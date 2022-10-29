@@ -8,6 +8,8 @@ import "react-day-picker/dist/style.css";
 import DatepickerCss from "../Datepicker/DatepickerCss";
 import { ko } from "date-fns/locale";
 
+import Swal from 'sweetalert2'
+
 interface IDate {
   gettodoCallback: (day: Date) => void;
 }
@@ -69,7 +71,10 @@ function Datepicker({ gettodoCallback }: IDate) {
         content,
       })
       .then((res) => {
-        res.statusText === "Created" ? alert("작성 완료") : alert("작성 실패");
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
+        res.statusText === "Created" ? Swal.fire({ title: '할 일 생성 완료!', timer: 1500, confirmButtonColor: "#ffc65d" }) : Swal.fire({ title: '작성에 실패했습니다.', timer: 1500, confirmButtonColor: "#ffc65d" });
       });
   };
 
@@ -80,9 +85,9 @@ function Datepicker({ gettodoCallback }: IDate) {
       setTitle("");
       setContent("");
     } else if (title === "") {
-      alert("제목을 입력해주세요.");
+      Swal.fire({ title: '제목을 입력해주세요.', timer: 1500, confirmButtonColor: "#ffc65d" });
     } else if (content === "") {
-      alert("내용을 입력해주세요.");
+      Swal.fire({ title: '내용을 입력해주세요.', timer: 1500, confirmButtonColor: "#ffc65d" });
     }
   };
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+import Swal from "sweetalert2";
+
 interface Idone {
   title: String;
   content: String;
@@ -19,14 +21,27 @@ interface IProps {
 function DoneList({ getYear, getMonth }: IProps) {
   const [dones, setdones] = useState<[]>([]);
   const [click, setClick] = useState<Boolean>(false);
+  const [id, setId] = useState<Number>(0);
+
+  const [postYear, setPostYear] = useState<Number>(0);
+  const [postMonth, setPostMonth] = useState<Number>(0);
+  const [postDate, setPostDate] = useState<Number>(0);
+  const [title, setTitle] = useState<String>("");
+  const [content, setContent] = useState<String>("");
 
   const getDone = async () => {
-    await axios
-      .get(`http://localhost:4000/dones${getYear}${getMonth}`)
-      .then((res) => {
-        setdones(res.data);
-        setClick(false);
-      });
+    try {
+      await axios
+        .get(`http://localhost:4000/dones${getYear}${getMonth}`)
+        .then((res) => {
+          setdones(res.data);
+          setClick(false);
+        });
+    } catch (error) {
+      if (error) {
+        setdones([]);
+      }
+    }
   };
 
   const deleteDone = async (e: any) => {
@@ -38,17 +53,61 @@ function DoneList({ getYear, getMonth }: IProps) {
       });
   };
 
+  const postToTodo = async () => {
+    await axios
+      .post(`http://localhost:4000/todos${postYear}${postMonth}`, {
+        postYear,
+        postMonth,
+        postDate,
+        title,
+        content,
+      })
+      .then((res) => {
+        if (res.statusText === "Created") {
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 500);
+          Swal.fire({
+            title: "취소 완료",
+            timer: 1500,
+            confirmButtonColor: "#ffc65d",
+          });
+        }
+      });
+  };
+
+  const updateToTodo = (e: any) => {
+    postToTodo();
+    deleteDone(e);
+    getDone();
+  };
+
   useEffect(() => {
     getDone();
-  }, [getMonth]);
+  }, [getMonth, id]);
 
   return (
     <Done>
-      <p style={{display:"flex", margin:"20px auto", fontSize:"26px", fontWeight:"bold"}}>{getMonth}월 완료 목록</p>
+      <p
+        style={{
+          display: "flex",
+          margin: "20px auto",
+          fontSize: "26px",
+          fontWeight: "bold",
+        }}
+      >
+        {getMonth}월 완료 목록
+      </p>
       <div>
         {dones?.map((done: Idone) => (
           <DoneBody
             onClick={() => {
+              setPostYear(done.postYear);
+              setPostMonth(done.postMonth);
+              setPostDate(done.postDate);
+              setTitle(done.title);
+              setContent(done.content);
+              setId(id === 0 ? done.id : 0);
               setClick(!click);
             }}
             key={done.id}
@@ -67,7 +126,7 @@ function DoneList({ getYear, getMonth }: IProps) {
                 삭제하기
               </BTN>
             </div>
-            {click === false ? (
+            {click === false && done.id !== id ? (
               <>
                 <Ellipsis style={{ fontWeight: "bold" }}>{done.title}</Ellipsis>
                 <Ellipsis>{done.content}</Ellipsis>
@@ -79,6 +138,8 @@ function DoneList({ getYear, getMonth }: IProps) {
                 </div>
                 <div style={{ wordBreak: "break-all" }}>{done.content}</div>
                 <BTN
+                  value={done.id}
+                  onClick={(e) => updateToTodo(e)}
                   style={{
                     display: "flex",
                     margin: "25px auto auto auto",
@@ -100,11 +161,18 @@ export default DoneList;
 
 const Done = styled.div`
   width: 33%;
-  height: 750px;
+  height: 700px;
   display: flex;
-  margin: auto;
+  margin: auto 20px auto auto;
   flex-direction: column;
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  border: solid 1px #ffb845;
+  border-radius: 7px;
+  padding: 5px;
 `;
 
 const DoneBody = styled.div`
@@ -112,6 +180,7 @@ const DoneBody = styled.div`
   padding: 10px;
   border: solid 3px #f5f859;
   border-radius: 7px;
+  margin-top: 5px;
 
   div {
     margin-top: 3px;
@@ -120,6 +189,7 @@ const DoneBody = styled.div`
 
 const Ellipsis = styled.div`
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
