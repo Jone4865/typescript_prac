@@ -16,9 +16,11 @@ interface ITodo {
 interface IProps {
   getYear: number;
   getMonth: number;
+  handleUpdate: () => void;
+  update: Boolean;
 }
 
-function TodoList({ getYear, getMonth }: IProps) {
+function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
   const [todos, setTodos] = useState<[]>([]);
   const [click, setClick] = useState<Boolean>(false);
   const [id, setId] = useState<Number>(0);
@@ -64,9 +66,7 @@ function TodoList({ getYear, getMonth }: IProps) {
       })
       .then((res) => {
         if (res.statusText === "Created") {
-          setTimeout(() => {
-            window.location.replace("/");
-          }, 500);
+          handleUpdate();
           Swal.fire({
             title: "할 일 완료!",
             timer: 1500,
@@ -84,7 +84,7 @@ function TodoList({ getYear, getMonth }: IProps) {
 
   useEffect(() => {
     getTodo();
-  }, [getMonth, id]);
+  }, [getMonth, id, update]);
 
   return (
     <Todo>
@@ -107,7 +107,7 @@ function TodoList({ getYear, getMonth }: IProps) {
               setPostDate(todo.postDate);
               setTitle(todo.title);
               setContent(todo.content);
-              setId(id === 0 ? todo.id : 0);
+              setId(id === todo.id ? 0 : todo.id);
               setClick(!click);
             }}
             key={todo.id}
@@ -116,17 +116,8 @@ function TodoList({ getYear, getMonth }: IProps) {
               <div style={{ marginTop: "25px" }}>
                 {todo.postYear}년 {todo.postMonth}월 {todo.postDate}일 할 일
               </div>
-              <BTN
-                value={todo.id}
-                style={{ backgroundColor: "#f98181", color: "white" }}
-                onClick={(e) => {
-                  deleteTodo(e);
-                }}
-              >
-                삭제하기
-              </BTN>
             </div>
-            {click === false && todo.id !== id ? (
+            {todo.id !== id ? (
               <>
                 <Ellipsis style={{ fontWeight: "bold" }}>{todo.title}</Ellipsis>
                 <Ellipsis>{todo.content}</Ellipsis>
@@ -137,17 +128,20 @@ function TodoList({ getYear, getMonth }: IProps) {
                   {todo.title}
                 </div>
                 <div style={{ wordBreak: "break-all" }}>{todo.content}</div>
-                <BTN
-                  value={todo.id}
-                  onClick={(e) => updateToDone(e)}
-                  style={{
-                    display: "flex",
-                    margin: "25px auto auto auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  완료하기
-                </BTN>
+                <div>
+                  <BTN value={todo.id} onClick={(e) => updateToDone(e)}>
+                    완료하기
+                  </BTN>
+                  <BTN
+                    value={todo.id}
+                    style={{ backgroundColor: "#f98181", color: "white" }}
+                    onClick={(e) => {
+                      deleteTodo(e);
+                    }}
+                  >
+                    삭제하기
+                  </BTN>
+                </div>
               </>
             )}
           </TodoBody>

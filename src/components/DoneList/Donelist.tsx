@@ -16,9 +16,11 @@ interface Idone {
 interface IProps {
   getYear: number;
   getMonth: number;
+  handleUpdate: () => void;
+  update: Boolean;
 }
 
-function DoneList({ getYear, getMonth }: IProps) {
+function DoneList({ getYear, getMonth, handleUpdate, update }: IProps) {
   const [dones, setdones] = useState<[]>([]);
   const [click, setClick] = useState<Boolean>(false);
   const [id, setId] = useState<Number>(0);
@@ -64,9 +66,7 @@ function DoneList({ getYear, getMonth }: IProps) {
       })
       .then((res) => {
         if (res.statusText === "Created") {
-          setTimeout(() => {
-            window.location.replace("/");
-          }, 500);
+          handleUpdate();
           Swal.fire({
             title: "취소 완료",
             timer: 1500,
@@ -84,7 +84,7 @@ function DoneList({ getYear, getMonth }: IProps) {
 
   useEffect(() => {
     getDone();
-  }, [getMonth, id]);
+  }, [getMonth, id, update]);
 
   return (
     <Done>
@@ -107,7 +107,7 @@ function DoneList({ getYear, getMonth }: IProps) {
               setPostDate(done.postDate);
               setTitle(done.title);
               setContent(done.content);
-              setId(id === 0 ? done.id : 0);
+              setId(id === done.id ? 0 : done.id);
               setClick(!click);
             }}
             key={done.id}
@@ -116,38 +116,41 @@ function DoneList({ getYear, getMonth }: IProps) {
               <div style={{ marginTop: "25px" }}>
                 {done.postYear}년 {done.postMonth}월 {done.postDate}일 할 일
               </div>
-              <BTN
-                value={done.id}
-                style={{ backgroundColor: "#f98181", color: "white" }}
-                onClick={(e) => {
-                  deleteDone(e);
-                }}
-              >
-                삭제하기
-              </BTN>
             </div>
-            {click === false && done.id !== id ? (
+            {done.id !== id ? (
               <>
                 <Ellipsis style={{ fontWeight: "bold" }}>{done.title}</Ellipsis>
-                <Ellipsis>{done.content}</Ellipsis>
+                <Ellipsis style={{ textDecoration: "line-through" }}>
+                  {done.content}
+                </Ellipsis>
               </>
             ) : (
               <>
                 <div style={{ fontWeight: "bold", wordBreak: "break-all" }}>
                   {done.title}
                 </div>
-                <div style={{ wordBreak: "break-all" }}>{done.content}</div>
-                <BTN
-                  value={done.id}
-                  onClick={(e) => updateToTodo(e)}
+                <div
                   style={{
-                    display: "flex",
-                    margin: "25px auto auto auto",
-                    justifyContent: "center",
+                    wordBreak: "break-all",
+                    textDecoration: "line-through",
                   }}
                 >
-                  취소하기
-                </BTN>
+                  {done.content}
+                </div>
+                <div>
+                  <BTN value={done.id} onClick={(e) => updateToTodo(e)}>
+                    다시하기
+                  </BTN>
+                  <BTN
+                    value={done.id}
+                    style={{ backgroundColor: "#f98181", color: "white" }}
+                    onClick={(e) => {
+                      deleteDone(e);
+                    }}
+                  >
+                    삭제하기
+                  </BTN>
+                </div>
               </>
             )}
           </DoneBody>

@@ -10,6 +10,8 @@ function Main() {
   const [year, setYear] = useState<number>(today.getFullYear());
   const [month, setMonth] = useState<number>(today.getMonth() + 1);
 
+  const [upDate, setUpdate] = useState<Boolean>(false);
+
   function handleGettodo(day: Date) {
     const getYear = day.getFullYear();
     const getMonth = day.getMonth() + 1;
@@ -17,13 +19,30 @@ function Main() {
     setMonth(getMonth);
   }
 
+  function handleUpdate() {
+    setUpdate(!upDate);
+  }
+
   return (
     <div>
       <Head>One's TodoList</Head>
       <Body>
-        <Datepicker gettodoCallback={handleGettodo} />
-        <TodoList getYear={year} getMonth={month} />
-        <DoneList getYear={year} getMonth={month} />
+        <Datepicker
+          gettodoCallback={handleGettodo}
+          handleUpdate={handleUpdate}
+        />
+        <TodoList
+          getYear={year}
+          getMonth={month}
+          handleUpdate={handleUpdate}
+          update={upDate}
+        />
+        <DoneList
+          getYear={year}
+          getMonth={month}
+          handleUpdate={handleUpdate}
+          update={upDate}
+        />
       </Body>
     </div>
   );
