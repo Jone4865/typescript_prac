@@ -31,6 +31,8 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
   const [title, setTitle] = useState<String>("");
   const [content, setContent] = useState<String>("");
 
+  const [modal, setModal] = useState<Boolean>(false);
+
   const getTodo = async () => {
     try {
       await axios
@@ -46,10 +48,9 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
     }
   };
 
-  const deleteTodo = async (e: any) => {
-    const ID = e.target.value;
+  const deleteTodo = async () => {
     await axios
-      .delete(`http://localhost:4000/todos${getYear}${getMonth}/${ID}`)
+      .delete(`http://localhost:4000/todos${getYear}${getMonth}/${id}`)
       .then((res) => {
         getTodo();
       });
@@ -76,9 +77,9 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
       });
   };
 
-  const updateToDone = (e: any) => {
+  const updateToDone = () => {
     postToDone();
-    deleteTodo(e);
+    deleteTodo();
     getTodo();
   };
 
@@ -119,34 +120,71 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
             </div>
             {todo.id !== id ? (
               <>
-                <Ellipsis style={{ fontWeight: "bold" }}>{todo.title}</Ellipsis>
-                <Ellipsis>{todo.content}</Ellipsis>
+                <Ellipsis
+                  style={{
+                    fontWeight: "bold",
+                    wordBreak: "break-all",
+                    fontSize: "30px",
+                  }}
+                >
+                  {todo.title}
+                </Ellipsis>
+                <Ellipsis style={{ marginBottom: "30px" }}>
+                  {todo.content}
+                </Ellipsis>
               </>
             ) : (
               <>
-                <div style={{ fontWeight: "bold", wordBreak: "break-all" }}>
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    wordBreak: "break-all",
+                    fontSize: "30px",
+                  }}
+                >
                   {todo.title}
                 </div>
                 <div style={{ wordBreak: "break-all" }}>{todo.content}</div>
                 <div>
-                  <BTN value={todo.id} onClick={(e) => updateToDone(e)}>
-                    완료하기
-                  </BTN>
-                  <BTN
-                    value={todo.id}
-                    style={{ backgroundColor: "#f98181", color: "white" }}
-                    onClick={(e) => {
-                      deleteTodo(e);
+                  <BTN onClick={(e) => updateToDone()}>완료하기</BTN>
+                  <DeleteBTN
+                    onClick={() => {
+                      setModal(true);
                     }}
                   >
                     삭제하기
-                  </BTN>
+                  </DeleteBTN>
                 </div>
               </>
             )}
           </TodoBody>
         ))}
       </div>
+      {modal ? (
+        <DeleteModal>
+          <DeleteModalBody>
+            <div style={{ fontSize: "36px" }}>{title}</div>{" "}
+            <div style={{ color: "red" }}>삭제하시겠습니까?</div>
+          </DeleteModalBody>
+          <div>
+            <DeleteBTN
+              onClick={() => {
+                deleteTodo();
+              }}
+            >
+              삭제하기
+            </DeleteBTN>
+            <BTN
+              type="button"
+              onClick={() => {
+                setModal(false);
+              }}
+            >
+              취소하기
+            </BTN>
+          </div>
+        </DeleteModal>
+      ) : null}
     </Todo>
   );
 }
@@ -174,8 +212,11 @@ const TodoBody = styled.div`
   padding: 10px;
   border: solid 3px #f5f859;
   border-radius: 7px;
-  margin-top: 5px;
-
+  margin: 5px auto auto auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   div {
     margin-top: 3px;
   }
@@ -200,4 +241,49 @@ const BTN = styled.button`
     background-color: #ff9900;
     cursor: pointer;
   }
+`;
+
+const DeleteBTN = styled.button`
+  padding: 7px;
+  border-radius: 10px;
+  background-color: #f98181;
+  width: 100px;
+  border: none;
+  margin: 20px;
+  font-weight: bold;
+
+  :hover {
+    background-color: #f35555;
+    cursor: pointer;
+  }
+`;
+
+const DeleteModal = styled.form`
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const DeleteModalBody = styled.div`
+  width: 500px;
+  height: 200px;
+  border: none;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-direction: column;
+  font-weight: bold;
 `;
