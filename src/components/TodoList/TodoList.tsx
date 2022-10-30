@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 
 import Swal from "sweetalert2";
+import { Bool } from "reselect/es/types";
 
 interface ITodo {
   title: String;
@@ -30,6 +31,7 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
   const [postDate, setPostDate] = useState<Number>(0);
   const [title, setTitle] = useState<String>("");
   const [content, setContent] = useState<String>("");
+  const [deleteId, setDeleteId] = useState<Number>(0);
 
   const [modal, setModal] = useState<Boolean>(false);
 
@@ -57,7 +59,7 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
 
   const deleteTodo = async () => {
     await axios
-      .delete(`http://localhost:4000/todos${getYear}${getMonth}/${id}`)
+      .delete(`http://localhost:4000/todos${getYear}${getMonth}/${deleteId}`)
       .then((res) => {
         getTodo();
       });
@@ -110,6 +112,7 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
         {todos?.map((todo: ITodo) => (
           <TodoBody
             onClick={() => {
+              setDeleteId(todo.id);
               setPostYear(todo.postYear);
               setPostMonth(todo.postMonth);
               setPostDate(todo.postDate);

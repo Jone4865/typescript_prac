@@ -4,8 +4,8 @@
       "postYear": 2022,
       "postMonth": 10,
       "postDate": 30,
-      "title": "dwad",
-      "content": "dwadwa",
+      "title": "작성 테스트12",
+      "content": "작성 테스트1",
       "id": 2
     }
   ],
@@ -24,17 +24,17 @@
     {
       "postYear": 2022,
       "postMonth": 10,
-      "postDate": 17,
-      "title": "ㄴㅇㅁㅇㅈㅁㅇ",
-      "content": "ㅇㅈㅁㅇㅈㅁㅇㅈㅁ",
+      "postDate": 30,
+      "title": "작성 테스트1",
+      "content": "작성 테스트1",
       "id": 1
     },
     {
       "postYear": 2022,
       "postMonth": 10,
-      "postDate": 5,
-      "title": "dwada",
-      "content": "dwadwa",
+      "postDate": 11,
+      "title": "작성 테스트13",
+      "content": "작성 테스트1작성 테스트1작성 테스트1",
       "id": 2
     }
   ]

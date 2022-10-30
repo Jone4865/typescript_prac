@@ -30,6 +30,7 @@ function DoneList({ getYear, getMonth, handleUpdate, update }: IProps) {
   const [postDate, setPostDate] = useState<Number>(0);
   const [title, setTitle] = useState<String>("");
   const [content, setContent] = useState<String>("");
+  const [deleteId, setDeleteId] = useState<Number>(0);
 
   const [modal, setModal] = useState<Boolean>(false);
 
@@ -57,7 +58,7 @@ function DoneList({ getYear, getMonth, handleUpdate, update }: IProps) {
 
   const deleteDone = async () => {
     await axios
-      .delete(`http://localhost:4000/dones${getYear}${getMonth}/${id}`)
+      .delete(`http://localhost:4000/dones${getYear}${getMonth}/${deleteId}`)
       .then((res) => {
         getDone();
       });
@@ -110,6 +111,7 @@ function DoneList({ getYear, getMonth, handleUpdate, update }: IProps) {
         {dones?.map((done: Idone) => (
           <DoneBody
             onClick={() => {
+              setDeleteId(done.id);
               setPostYear(done.postYear);
               setPostMonth(done.postMonth);
               setPostDate(done.postDate);
