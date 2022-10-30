@@ -38,6 +38,13 @@ function TodoList({ getYear, getMonth, handleUpdate, update }: IProps) {
       await axios
         .get(`http://localhost:4000/todos${getYear}${getMonth}`)
         .then((res) => {
+          res.data.sort(function (a: any, b: any) {
+            return a.postDate < b.postDate
+              ? -1
+              : a.postDate > b.postDate
+              ? 1
+              : 0;
+          });
           setTodos(res.data);
           setClick(false);
         });
