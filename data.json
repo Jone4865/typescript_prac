@@ -3,10 +3,10 @@
     {
       "postYear": 2022,
       "postMonth": 10,
-      "postDate": 30,
-      "title": "작성 테스트12",
-      "content": "작성 테스트1",
-      "id": 2
+      "postDate": 11,
+      "title": "작성 테스트13",
+      "content": "작성 테스트1작성 테스트1작성 테스트1",
+      "id": 3
     }
   ],
   "todos202211": [
@@ -25,17 +25,9 @@
       "postYear": 2022,
       "postMonth": 10,
       "postDate": 30,
-      "title": "작성 테스트1",
+      "title": "작성 테스트12",
       "content": "작성 테스트1",
       "id": 1
-    },
-    {
-      "postYear": 2022,
-      "postMonth": 10,
-      "postDate": 11,
-      "title": "작성 테스트13",
-      "content": "작성 테스트1작성 테스트1작성 테스트1",
-      "id": 2
     }
   ]
 }
