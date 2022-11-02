@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import Datepicker from "../components/Datepicker/Datepicker";
 import TodoList from "../components/TodoList/TodoList";
@@ -11,6 +12,8 @@ function Main() {
   const [month, setMonth] = useState<number>(today.getMonth() + 1);
 
   const [upDate, setUpdate] = useState<Boolean>(false);
+
+  const navigate = useNavigate();
 
   function handleGettodo(day: Date) {
     const getYear = day.getFullYear();
@@ -26,6 +29,7 @@ function Main() {
   return (
     <div>
       <Head>One's TodoList</Head>
+      <BTN onClick={()=>{navigate("/finance")}}>가계부</BTN>
       <Body>
         <Datepicker
           gettodoCallback={handleGettodo}
@@ -65,5 +69,21 @@ const Head = styled.p`
 
 const Body = styled.div`
   display: flex;
-  height: 750px;
+  height: 670px;
+`;
+
+const BTN = styled.button`
+  padding: 7px;
+  border-radius: 10px;
+  background-color: #fdc166;
+  width: 150px;
+  border: none;
+  margin: 10px auto;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  :hover {
+    background-color: #ff9900;
+    cursor: pointer;
+  }
 `;

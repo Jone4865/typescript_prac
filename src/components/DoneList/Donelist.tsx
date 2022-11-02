@@ -214,7 +214,7 @@ export default DoneList;
 
 const Done = styled.div`
   width: 33%;
-  height: 700px;
+  height: 650px;
   display: flex;
   margin: auto 20px auto auto;
   flex-direction: column;
