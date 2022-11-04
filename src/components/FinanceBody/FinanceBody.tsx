@@ -82,6 +82,14 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
       });
   };
 
+  const deleteFinance = async (e:any) => {
+    await axios
+      .delete(`http://localhost:4000/finance${postYear}${postMonth}/${e.target.value}`)
+      .then((res) => {
+        console.log(res)
+      });
+  };
+
   useEffect(() => {
     getStart();
     getMoney();
@@ -120,7 +128,7 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
           초기자금 {start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
         </div>
         {money.map((m:IMoney)=>(
-          <div key={m.id}>{m.money}</div>
+          <div key={m.id}>{m.money}<button value={m.id} onClick={(e)=>{deleteFinance(e);}}>삭제하기</button></div>
         ))}
       </GetFinance>
     </Body>
