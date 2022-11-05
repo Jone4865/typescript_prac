@@ -11,8 +11,11 @@ interface IProps {
 }
 
 interface IMoney {
-  money: ReactNode,
-  id: any
+  money: ReactNode;
+  id: any;
+  postYear: Number;
+  postMonth: Number;
+  postDate: Number;
 }
 
 function FinanceBody({ postYear, postMonth, postDate }: IProps) {
@@ -47,6 +50,9 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
     await axios
       .post(`http://localhost:4000/finance${postYear}${postMonth}`, {
         money: postStart,
+        postYear,
+        postMonth,
+        postDate,
       })
       .then((res) => {
         if (res.statusText === "Created") {
@@ -79,14 +85,17 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
       .get(`http://localhost:4000/finance${postYear}${postMonth}`)
       .then((res) => {
         setMoney(res.data);
+        
       });
   };
 
-  const deleteFinance = async (e:any) => {
+  const deleteFinance = async (e: any) => {
     await axios
-      .delete(`http://localhost:4000/finance${postYear}${postMonth}/${e.target.value}`)
+      .delete(
+        `http://localhost:4000/finance${postYear}${postMonth}/${e.target.value}`
+      )
       .then((res) => {
-        console.log(res)
+        console.log(res);
       });
   };
 
@@ -127,8 +136,29 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
         <div style={{ textAlign: "center", fontWeight: "bold" }}>
           초기자금 {start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
         </div>
-        {money.map((m:IMoney)=>(
-          <div key={m.id}>{m.money}<button value={m.id} onClick={(e)=>{deleteFinance(e);}}>삭제하기</button></div>
+        {money.map((m: IMoney) => (
+          <ListBody
+            key={m.id}
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <div>
+              {m.money !== null && m.money !== undefined
+                ? m.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                : null}
+              원
+            </div>
+            <div>
+              {+m.postYear}년{+m.postMonth}월{+m.postDate}일
+            </div>
+            <button
+              value={m.id}
+              onClick={(e) => {
+                deleteFinance(e);
+              }}
+            >
+              삭제하기
+            </button>
+          </ListBody>
         ))}
       </GetFinance>
     </Body>
@@ -180,4 +210,13 @@ const Body = styled.div`
 const GetFinance = styled.div`
   border: solid 1px #fdc166;
   height: 90%;
+`;
+
+const ListBody = styled.div`
+  border: solid 1px #fdc166;
+  border-radius: 7px;
+  margin: 3px 5px;
+  div {
+    margin: auto auto auto 10px;
+  }
 `;
