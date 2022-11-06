@@ -19,7 +19,7 @@ function Finance() {
   const [selected, setSelected] = useState<Date>();
 
   const postYear = today.getFullYear();
-  const postMonth = today.getMonth() + 1;
+  const postMonth = selected?.getMonth() === undefined ? today.getMonth() + 1 : selected?.getMonth() + 1;
   const postDate =
     selected === undefined ? today.getDate() : selected.getDate();
 
@@ -60,16 +60,18 @@ function Finance() {
         메인으로
       </BTN>
       <Body>
-        <DatepickerCss />
-        <DayPicker
-          mode="single"
-          selected={selected}
-          onSelect={setSelected}
-          footer={footer}
-          month={month}
-          onMonthChange={setMonth}
-          locale={ko}
-        />
+        <div>
+          <DatepickerCss />
+          <DayPicker
+            mode="single"
+            selected={selected}
+            onSelect={setSelected}
+            footer={footer}
+            month={month}
+            onMonthChange={setMonth}
+            locale={ko}
+          />
+        </div>
         <FinanceBody
           postYear={postYear}
           postMonth={postMonth}
@@ -98,8 +100,10 @@ const Head = styled.p`
 const Body = styled.div`
   display: flex;
   height: 670px;
-  width: 100%;
+  width: 70%;
   margin: auto;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BTN = styled.button`

@@ -58,25 +58,44 @@
   ],
   "finance202211": [
     {
-      "money": 37800,
-      "id": 2,
-      "postYear": 2022,
-      "postMonth": 11,
-      "postDate": 2
-    },
-    {
       "money": 20999,
-      "id": 4,
       "postYear": 2022,
       "postMonth": 11,
-      "postDate": 3
+      "postDate": 1,
+      "text": "배민/페리카나",
+      "id": 1
     },
     {
-      "money": 12220,
+      "money": 37800,
       "postYear": 2022,
       "postMonth": 11,
-      "postDate": 5,
-      "id": 5
+      "postDate": 2,
+      "text": "배민/조선마라탕",
+      "id": 2
+    },
+    {
+      "money": 19600,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 4,
+      "text": "요기요/토끼정",
+      "id": 3
+    },
+    {
+      "money": 5800,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 6,
+      "text": "요기요/타이반쩜",
+      "id": 6
+    },
+    {
+      "money": 13500,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 6,
+      "text": "off/지파시 아이스크림",
+      "id": 7
     }
   ],
   "finance202212": [],
