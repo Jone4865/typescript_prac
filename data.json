@@ -54,6 +54,10 @@
     {
       "start": 400000,
       "id": 5
+    },
+    {
+      "start": 800000,
+      "id": 6
     }
   ],
   "finance202211": [
@@ -96,6 +100,30 @@
       "postDate": 6,
       "text": "off/지파시 아이스크림",
       "id": 7
+    },
+    {
+      "money": 15000,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 6,
+      "text": "off/나이스크림",
+      "id": 8
+    },
+    {
+      "money": 15500,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 6,
+      "text": "off/라밥 분식",
+      "id": 9
+    },
+    {
+      "money": 3480,
+      "postYear": 2022,
+      "postMonth": 11,
+      "postDate": 6,
+      "text": "off/프라임마트",
+      "id": 10
     }
   ],
   "finance202212": [],

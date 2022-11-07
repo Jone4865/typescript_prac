@@ -229,10 +229,6 @@ const Body = styled.div`
   display: flex;
   margin: auto 5px auto auto;
   flex-direction: column;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 
   border: solid 1px #ffb845;
   border-radius: 7px;
@@ -263,8 +259,8 @@ const Body = styled.div`
 `;
 
 const GetFinance = styled.div`
-  border: solid 1px #fdc166;
   height: 90%;
+  overflow: hidden;
 `;
 
 const ListBody = styled.div`
@@ -278,6 +274,8 @@ const ListBody = styled.div`
 `;
 
 const Scroll = styled.div`
+  border: solid 1px #fdc166;
+  height: 94.5%;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
