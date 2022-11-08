@@ -98,6 +98,9 @@ function FinanceBody({ postYear, postMonth, postDate }: IProps) {
     await axios
       .get(`http://localhost:4000/finance${postYear}${postMonth}`)
       .then((res) => {
+        res.data.sort(function (a: any, b: any) {
+          return a.postDate < b.postDate ? -1 : a.postDate > b.postDate ? 1 : 0;
+        });
         const Data = res.data.reverse();
         setMoney(Data);
       });
@@ -275,7 +278,7 @@ const ListBody = styled.div`
 
 const Scroll = styled.div`
   border: solid 1px #fdc166;
-  height: 94.5%;
+  height: 94.52%;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
