@@ -17,9 +17,9 @@
 ### - 😶‍🌫️ 사용기술
 <div style="display: inline;">
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/typescript-blue?style=for-the-badge&logo=typescript&logoColor=white">
 <img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
 <img src="https://img.shields.io/badge/axios-6236FF?style=for-the-badge&logo=axios&logoColor=white">
 <img src="https://img.shields.io/badge/Json-green?style=for-the-badge&logo=Json&logoColor=CC6699"/>
 <img src="https://img.shields.io/badge/datepicker-red?style=for-the-badge&logodatepicker&logoColor=CC6699"/>
-
 </div>
